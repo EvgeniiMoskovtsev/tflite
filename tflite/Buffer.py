@@ -25,6 +25,19 @@ class Buffer(object):
             a = self._tab.Vector(o)
             return self._tab.Get(flatbuffers.number_types.Uint8Flags, a + flatbuffers.number_types.UOffsetTFlags.py_type(j * 1))
         return 0
+    
+    def DataAsNumpyInt8(self):
+        o = flatbuffers.number_types.UOffsetTFlags.py_type(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int8Flags, o)
+        return 0
+
+    def DataAsNumpyInt32(self, length):
+        offset_flag = flatbuffers.number_types.UOffsetTFlags.py_type
+        o = offset_flag(self._tab.Offset(4))
+        if o != 0:
+            return self._tab.GetVectorAsNumpy(flatbuffers.number_types.Int32Flags, o, length)
+        return 0
 
     # Buffer
     def DataAsNumpy(self):
